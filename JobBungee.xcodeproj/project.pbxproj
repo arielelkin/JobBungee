@@ -13,6 +13,7 @@
 		B009C92716EF8C2D004B054F /* libz.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = B009C92616EF8C2D004B054F /* libz.dylib */; };
 		B009C92916EF8C31004B054F /* libxml2.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = B009C92816EF8C31004B054F /* libxml2.dylib */; };
 		B009C92B16EF916D004B054F /* cv.jpg in Resources */ = {isa = PBXBuildFile; fileRef = B009C92A16EF916D004B054F /* cv.jpg */; };
+		B009C92F16EFA502004B054F /* JobsSearcher.m in Sources */ = {isa = PBXBuildFile; fileRef = B009C92E16EFA502004B054F /* JobsSearcher.m */; };
 		B01F42E316EF4C19006987A5 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B01F42E216EF4C19006987A5 /* UIKit.framework */; };
 		B01F42E516EF4C19006987A5 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B01F42E416EF4C19006987A5 /* Foundation.framework */; };
 		B01F42E716EF4C19006987A5 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B01F42E616EF4C19006987A5 /* CoreGraphics.framework */; };
@@ -39,6 +40,8 @@
 		B009C92616EF8C2D004B054F /* libz.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libz.dylib; path = usr/lib/libz.dylib; sourceTree = SDKROOT; };
 		B009C92816EF8C31004B054F /* libxml2.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libxml2.dylib; path = usr/lib/libxml2.dylib; sourceTree = SDKROOT; };
 		B009C92A16EF916D004B054F /* cv.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; name = cv.jpg; path = ../../../Desktop/cv.jpg; sourceTree = "<group>"; };
+		B009C92D16EFA502004B054F /* JobsSearcher.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JobsSearcher.h; sourceTree = "<group>"; };
+		B009C92E16EFA502004B054F /* JobsSearcher.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JobsSearcher.m; sourceTree = "<group>"; };
 		B01F42DE16EF4C19006987A5 /* JobBungee.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = JobBungee.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		B01F42E216EF4C19006987A5 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		B01F42E416EF4C19006987A5 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
@@ -98,6 +101,8 @@
 				B02B708616EF57CD008D27D2 /* LMIDataFetcher.m */,
 				B01F431216EF54D6006987A5 /* Default-Portrait@2x~ipad.png */,
 				B01F431016EF54CC006987A5 /* Default-Portrait~ipad.png */,
+				B009C92D16EFA502004B054F /* JobsSearcher.h */,
+				B009C92E16EFA502004B054F /* JobsSearcher.m */,
 				B009C92C16EFA4B7004B054F /* Images */,
 				B01F42E816EF4C19006987A5 /* JobBungee */,
 				B01F42E116EF4C19006987A5 /* Frameworks */,
@@ -232,6 +237,7 @@
 				B01F42FC16EF4C19006987A5 /* ViewController.m in Sources */,
 				B02B708716EF57CD008D27D2 /* LMIDataFetcher.m in Sources */,
 				B009C92516EF8C10004B054F /* RXMLElement.m in Sources */,
+				B009C92F16EFA502004B054F /* JobsSearcher.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
