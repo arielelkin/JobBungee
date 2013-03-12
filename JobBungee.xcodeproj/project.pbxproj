@@ -1,0 +1,332 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		B01F42E316EF4C19006987A5 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B01F42E216EF4C19006987A5 /* UIKit.framework */; };
+		B01F42E516EF4C19006987A5 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B01F42E416EF4C19006987A5 /* Foundation.framework */; };
+		B01F42E716EF4C19006987A5 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B01F42E616EF4C19006987A5 /* CoreGraphics.framework */; };
+		B01F42ED16EF4C19006987A5 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = B01F42EB16EF4C19006987A5 /* InfoPlist.strings */; };
+		B01F42EF16EF4C19006987A5 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = B01F42EE16EF4C19006987A5 /* main.m */; };
+		B01F42F316EF4C19006987A5 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = B01F42F216EF4C19006987A5 /* AppDelegate.m */; };
+		B01F42F516EF4C19006987A5 /* Default.png in Resources */ = {isa = PBXBuildFile; fileRef = B01F42F416EF4C19006987A5 /* Default.png */; };
+		B01F42F716EF4C19006987A5 /* Default@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = B01F42F616EF4C19006987A5 /* Default@2x.png */; };
+		B01F42F916EF4C19006987A5 /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = B01F42F816EF4C19006987A5 /* Default-568h@2x.png */; };
+		B01F42FC16EF4C19006987A5 /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B01F42FB16EF4C19006987A5 /* ViewController.m */; };
+		B01F42FF16EF4C19006987A5 /* ViewController_iPhone.xib in Resources */ = {isa = PBXBuildFile; fileRef = B01F42FD16EF4C19006987A5 /* ViewController_iPhone.xib */; };
+		B01F430216EF4C19006987A5 /* ViewController_iPad.xib in Resources */ = {isa = PBXBuildFile; fileRef = B01F430016EF4C19006987A5 /* ViewController_iPad.xib */; };
+		B01F430916EF4E5C006987A5 /* Armata-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = B01F430816EF4E5C006987A5 /* Armata-Regular.ttf */; };
+		B01F431116EF54CC006987A5 /* Default-Portrait~ipad.png in Resources */ = {isa = PBXBuildFile; fileRef = B01F431016EF54CC006987A5 /* Default-Portrait~ipad.png */; };
+		B01F431316EF54D6006987A5 /* Default-Portrait@2x~ipad.png in Resources */ = {isa = PBXBuildFile; fileRef = B01F431216EF54D6006987A5 /* Default-Portrait@2x~ipad.png */; };
+		B02B708716EF57CD008D27D2 /* LMIDataFetcher.m in Sources */ = {isa = PBXBuildFile; fileRef = B02B708616EF57CD008D27D2 /* LMIDataFetcher.m */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXFileReference section */
+		B01F42DE16EF4C19006987A5 /* JobBungee.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = JobBungee.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		B01F42E216EF4C19006987A5 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
+		B01F42E416EF4C19006987A5 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
+		B01F42E616EF4C19006987A5 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
+		B01F42EA16EF4C19006987A5 /* JobBungee-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "JobBungee-Info.plist"; sourceTree = "<group>"; };
+		B01F42EC16EF4C19006987A5 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		B01F42EE16EF4C19006987A5 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
+		B01F42F016EF4C19006987A5 /* JobBungee-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "JobBungee-Prefix.pch"; sourceTree = "<group>"; };
+		B01F42F116EF4C19006987A5 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
+		B01F42F216EF4C19006987A5 /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
+		B01F42F416EF4C19006987A5 /* Default.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Default.png; sourceTree = "<group>"; };
+		B01F42F616EF4C19006987A5 /* Default@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default@2x.png"; sourceTree = "<group>"; };
+		B01F42F816EF4C19006987A5 /* Default-568h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-568h@2x.png"; sourceTree = "<group>"; };
+		B01F42FA16EF4C19006987A5 /* ViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ViewController.h; sourceTree = "<group>"; };
+		B01F42FB16EF4C19006987A5 /* ViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ViewController.m; sourceTree = "<group>"; };
+		B01F42FE16EF4C19006987A5 /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = en.lproj/ViewController_iPhone.xib; sourceTree = "<group>"; };
+		B01F430116EF4C19006987A5 /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = en.lproj/ViewController_iPad.xib; sourceTree = "<group>"; };
+		B01F430816EF4E5C006987A5 /* Armata-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Armata-Regular.ttf"; sourceTree = "<group>"; };
+		B01F431016EF54CC006987A5 /* Default-Portrait~ipad.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-Portrait~ipad.png"; sourceTree = "<group>"; };
+		B01F431216EF54D6006987A5 /* Default-Portrait@2x~ipad.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-Portrait@2x~ipad.png"; sourceTree = "<group>"; };
+		B02B708516EF57CD008D27D2 /* LMIDataFetcher.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LMIDataFetcher.h; sourceTree = "<group>"; };
+		B02B708616EF57CD008D27D2 /* LMIDataFetcher.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LMIDataFetcher.m; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		B01F42DB16EF4C19006987A5 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				B01F42E316EF4C19006987A5 /* UIKit.framework in Frameworks */,
+				B01F42E516EF4C19006987A5 /* Foundation.framework in Frameworks */,
+				B01F42E716EF4C19006987A5 /* CoreGraphics.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		B01F42D316EF4C19006987A5 = {
+			isa = PBXGroup;
+			children = (
+				B02B708516EF57CD008D27D2 /* LMIDataFetcher.h */,
+				B02B708616EF57CD008D27D2 /* LMIDataFetcher.m */,
+				B01F431216EF54D6006987A5 /* Default-Portrait@2x~ipad.png */,
+				B01F431016EF54CC006987A5 /* Default-Portrait~ipad.png */,
+				B01F42E816EF4C19006987A5 /* JobBungee */,
+				B01F42E116EF4C19006987A5 /* Frameworks */,
+				B01F42DF16EF4C19006987A5 /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		B01F42DF16EF4C19006987A5 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				B01F42DE16EF4C19006987A5 /* JobBungee.app */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		B01F42E116EF4C19006987A5 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				B01F42E216EF4C19006987A5 /* UIKit.framework */,
+				B01F42E416EF4C19006987A5 /* Foundation.framework */,
+				B01F42E616EF4C19006987A5 /* CoreGraphics.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		B01F42E816EF4C19006987A5 /* JobBungee */ = {
+			isa = PBXGroup;
+			children = (
+				B01F42F116EF4C19006987A5 /* AppDelegate.h */,
+				B01F42F216EF4C19006987A5 /* AppDelegate.m */,
+				B01F430816EF4E5C006987A5 /* Armata-Regular.ttf */,
+				B01F42FA16EF4C19006987A5 /* ViewController.h */,
+				B01F42FB16EF4C19006987A5 /* ViewController.m */,
+				B01F42FD16EF4C19006987A5 /* ViewController_iPhone.xib */,
+				B01F430016EF4C19006987A5 /* ViewController_iPad.xib */,
+				B01F42E916EF4C19006987A5 /* Supporting Files */,
+			);
+			path = JobBungee;
+			sourceTree = "<group>";
+		};
+		B01F42E916EF4C19006987A5 /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				B01F42EA16EF4C19006987A5 /* JobBungee-Info.plist */,
+				B01F42EB16EF4C19006987A5 /* InfoPlist.strings */,
+				B01F42EE16EF4C19006987A5 /* main.m */,
+				B01F42F016EF4C19006987A5 /* JobBungee-Prefix.pch */,
+				B01F42F416EF4C19006987A5 /* Default.png */,
+				B01F42F616EF4C19006987A5 /* Default@2x.png */,
+				B01F42F816EF4C19006987A5 /* Default-568h@2x.png */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		B01F42DD16EF4C19006987A5 /* JobBungee */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = B01F430516EF4C19006987A5 /* Build configuration list for PBXNativeTarget "JobBungee" */;
+			buildPhases = (
+				B01F42DA16EF4C19006987A5 /* Sources */,
+				B01F42DB16EF4C19006987A5 /* Frameworks */,
+				B01F42DC16EF4C19006987A5 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = JobBungee;
+			productName = JobBungee;
+			productReference = B01F42DE16EF4C19006987A5 /* JobBungee.app */;
+			productType = "com.apple.product-type.application";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		B01F42D516EF4C19006987A5 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastUpgradeCheck = 0450;
+				ORGANIZATIONNAME = ariel;
+			};
+			buildConfigurationList = B01F42D816EF4C19006987A5 /* Build configuration list for PBXProject "JobBungee" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+			);
+			mainGroup = B01F42D316EF4C19006987A5;
+			productRefGroup = B01F42DF16EF4C19006987A5 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				B01F42DD16EF4C19006987A5 /* JobBungee */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		B01F42DC16EF4C19006987A5 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				B01F42ED16EF4C19006987A5 /* InfoPlist.strings in Resources */,
+				B01F42F516EF4C19006987A5 /* Default.png in Resources */,
+				B01F42F716EF4C19006987A5 /* Default@2x.png in Resources */,
+				B01F42F916EF4C19006987A5 /* Default-568h@2x.png in Resources */,
+				B01F42FF16EF4C19006987A5 /* ViewController_iPhone.xib in Resources */,
+				B01F430216EF4C19006987A5 /* ViewController_iPad.xib in Resources */,
+				B01F430916EF4E5C006987A5 /* Armata-Regular.ttf in Resources */,
+				B01F431116EF54CC006987A5 /* Default-Portrait~ipad.png in Resources */,
+				B01F431316EF54D6006987A5 /* Default-Portrait@2x~ipad.png in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		B01F42DA16EF4C19006987A5 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				B01F42EF16EF4C19006987A5 /* main.m in Sources */,
+				B01F42F316EF4C19006987A5 /* AppDelegate.m in Sources */,
+				B01F42FC16EF4C19006987A5 /* ViewController.m in Sources */,
+				B02B708716EF57CD008D27D2 /* LMIDataFetcher.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXVariantGroup section */
+		B01F42EB16EF4C19006987A5 /* InfoPlist.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				B01F42EC16EF4C19006987A5 /* en */,
+			);
+			name = InfoPlist.strings;
+			sourceTree = "<group>";
+		};
+		B01F42FD16EF4C19006987A5 /* ViewController_iPhone.xib */ = {
+			isa = PBXVariantGroup;
+			children = (
+				B01F42FE16EF4C19006987A5 /* en */,
+			);
+			name = ViewController_iPhone.xib;
+			sourceTree = "<group>";
+		};
+		B01F430016EF4C19006987A5 /* ViewController_iPad.xib */ = {
+			isa = PBXVariantGroup;
+			children = (
+				B01F430116EF4C19006987A5 /* en */,
+			);
+			name = ViewController_iPad.xib;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
+/* Begin XCBuildConfiguration section */
+		B01F430316EF4C19006987A5 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = iphoneos;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		B01F430416EF4C19006987A5 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
+				OTHER_CFLAGS = "-DNS_BLOCK_ASSERTIONS=1";
+				SDKROOT = iphoneos;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		B01F430616EF4C19006987A5 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "JobBungee/JobBungee-Prefix.pch";
+				INFOPLIST_FILE = "JobBungee/JobBungee-Info.plist";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				WRAPPER_EXTENSION = app;
+			};
+			name = Debug;
+		};
+		B01F430716EF4C19006987A5 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "JobBungee/JobBungee-Prefix.pch";
+				INFOPLIST_FILE = "JobBungee/JobBungee-Info.plist";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				WRAPPER_EXTENSION = app;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		B01F42D816EF4C19006987A5 /* Build configuration list for PBXProject "JobBungee" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				B01F430316EF4C19006987A5 /* Debug */,
+				B01F430416EF4C19006987A5 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		B01F430516EF4C19006987A5 /* Build configuration list for PBXNativeTarget "JobBungee" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				B01F430616EF4C19006987A5 /* Debug */,
+				B01F430716EF4C19006987A5 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = B01F42D516EF4C19006987A5 /* Project object */;
+}
