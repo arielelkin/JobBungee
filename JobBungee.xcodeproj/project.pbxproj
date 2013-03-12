@@ -7,6 +7,12 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		B009C91A16EF8878004B054F /* bungeeguy.png in Resources */ = {isa = PBXBuildFile; fileRef = B009C91816EF8878004B054F /* bungeeguy.png */; };
+		B009C91B16EF8878004B054F /* bungeeguy@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = B009C91916EF8878004B054F /* bungeeguy@2x.png */; };
+		B009C92516EF8C10004B054F /* RXMLElement.m in Sources */ = {isa = PBXBuildFile; fileRef = B009C92416EF8C10004B054F /* RXMLElement.m */; };
+		B009C92716EF8C2D004B054F /* libz.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = B009C92616EF8C2D004B054F /* libz.dylib */; };
+		B009C92916EF8C31004B054F /* libxml2.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = B009C92816EF8C31004B054F /* libxml2.dylib */; };
+		B009C92B16EF916D004B054F /* cv.jpg in Resources */ = {isa = PBXBuildFile; fileRef = B009C92A16EF916D004B054F /* cv.jpg */; };
 		B01F42E316EF4C19006987A5 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B01F42E216EF4C19006987A5 /* UIKit.framework */; };
 		B01F42E516EF4C19006987A5 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B01F42E416EF4C19006987A5 /* Foundation.framework */; };
 		B01F42E716EF4C19006987A5 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B01F42E616EF4C19006987A5 /* CoreGraphics.framework */; };
@@ -26,6 +32,13 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		B009C91816EF8878004B054F /* bungeeguy.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = bungeeguy.png; path = "../../../Downloads/lmi assets/bungeeguy.png"; sourceTree = "<group>"; };
+		B009C91916EF8878004B054F /* bungeeguy@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "bungeeguy@2x.png"; path = "../../../Downloads/lmi assets/bungeeguy@2x.png"; sourceTree = "<group>"; };
+		B009C92316EF8C10004B054F /* RXMLElement.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = RXMLElement.h; path = ../../ZLIBRARIES/RaptureXML/RaptureXML/RXMLElement.h; sourceTree = "<group>"; };
+		B009C92416EF8C10004B054F /* RXMLElement.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = RXMLElement.m; path = ../../ZLIBRARIES/RaptureXML/RaptureXML/RXMLElement.m; sourceTree = "<group>"; };
+		B009C92616EF8C2D004B054F /* libz.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libz.dylib; path = usr/lib/libz.dylib; sourceTree = SDKROOT; };
+		B009C92816EF8C31004B054F /* libxml2.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libxml2.dylib; path = usr/lib/libxml2.dylib; sourceTree = SDKROOT; };
+		B009C92A16EF916D004B054F /* cv.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; name = cv.jpg; path = ../../../Desktop/cv.jpg; sourceTree = "<group>"; };
 		B01F42DE16EF4C19006987A5 /* JobBungee.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = JobBungee.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		B01F42E216EF4C19006987A5 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		B01F42E416EF4C19006987A5 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
@@ -55,6 +68,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				B009C92916EF8C31004B054F /* libxml2.dylib in Frameworks */,
+				B009C92716EF8C2D004B054F /* libz.dylib in Frameworks */,
 				B01F42E316EF4C19006987A5 /* UIKit.framework in Frameworks */,
 				B01F42E516EF4C19006987A5 /* Foundation.framework in Frameworks */,
 				B01F42E716EF4C19006987A5 /* CoreGraphics.framework in Frameworks */,
@@ -64,13 +79,26 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		B009C92C16EFA4B7004B054F /* Images */ = {
+			isa = PBXGroup;
+			children = (
+				B009C92A16EF916D004B054F /* cv.jpg */,
+				B009C91816EF8878004B054F /* bungeeguy.png */,
+				B009C91916EF8878004B054F /* bungeeguy@2x.png */,
+			);
+			name = Images;
+			sourceTree = "<group>";
+		};
 		B01F42D316EF4C19006987A5 = {
 			isa = PBXGroup;
 			children = (
+				B009C92316EF8C10004B054F /* RXMLElement.h */,
+				B009C92416EF8C10004B054F /* RXMLElement.m */,
 				B02B708516EF57CD008D27D2 /* LMIDataFetcher.h */,
 				B02B708616EF57CD008D27D2 /* LMIDataFetcher.m */,
 				B01F431216EF54D6006987A5 /* Default-Portrait@2x~ipad.png */,
 				B01F431016EF54CC006987A5 /* Default-Portrait~ipad.png */,
+				B009C92C16EFA4B7004B054F /* Images */,
 				B01F42E816EF4C19006987A5 /* JobBungee */,
 				B01F42E116EF4C19006987A5 /* Frameworks */,
 				B01F42DF16EF4C19006987A5 /* Products */,
@@ -88,6 +116,8 @@
 		B01F42E116EF4C19006987A5 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				B009C92816EF8C31004B054F /* libxml2.dylib */,
+				B009C92616EF8C2D004B054F /* libz.dylib */,
 				B01F42E216EF4C19006987A5 /* UIKit.framework */,
 				B01F42E416EF4C19006987A5 /* Foundation.framework */,
 				B01F42E616EF4C19006987A5 /* CoreGraphics.framework */,
@@ -184,6 +214,9 @@
 				B01F430916EF4E5C006987A5 /* Armata-Regular.ttf in Resources */,
 				B01F431116EF54CC006987A5 /* Default-Portrait~ipad.png in Resources */,
 				B01F431316EF54D6006987A5 /* Default-Portrait@2x~ipad.png in Resources */,
+				B009C91A16EF8878004B054F /* bungeeguy.png in Resources */,
+				B009C91B16EF8878004B054F /* bungeeguy@2x.png in Resources */,
+				B009C92B16EF916D004B054F /* cv.jpg in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -198,6 +231,7 @@
 				B01F42F316EF4C19006987A5 /* AppDelegate.m in Sources */,
 				B01F42FC16EF4C19006987A5 /* ViewController.m in Sources */,
 				B02B708716EF57CD008D27D2 /* LMIDataFetcher.m in Sources */,
+				B009C92516EF8C10004B054F /* RXMLElement.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -288,6 +322,7 @@
 			buildSettings = {
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "JobBungee/JobBungee-Prefix.pch";
+				HEADER_SEARCH_PATHS = "\"$(SDK_DIR)\"/usr/include/libxml2";
 				INFOPLIST_FILE = "JobBungee/JobBungee-Info.plist";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				WRAPPER_EXTENSION = app;
@@ -299,6 +334,7 @@
 			buildSettings = {
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "JobBungee/JobBungee-Prefix.pch";
+				HEADER_SEARCH_PATHS = "\"$(SDK_DIR)\"/usr/include/libxml2";
 				INFOPLIST_FILE = "JobBungee/JobBungee-Info.plist";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				WRAPPER_EXTENSION = app;
