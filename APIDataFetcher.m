@@ -7,7 +7,7 @@
 //
 
 #import "APIDataFetcher.h"
-#import "RXMLElement.h"
+//#import "RXMLElement.h"
 
 #define BASE_URL @"http://api.lmiforall.org.uk/api/"
 
@@ -136,7 +136,6 @@
         completionBlock(socInfo, error);
     }];
     
-
 }
 
 +(void)sendRequest:(NSURLRequest *)request completion:(void (^)(NSJSONSerialization *json, NSError *error)) completionBlock{
@@ -234,19 +233,19 @@
                                                               
                                                               NSString *html = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
                                                                    
-                                                                   RXMLElement *rootXML = [RXMLElement elementFromXMLString:html encoding:NSUTF8StringEncoding];
-                                                                   
-                                                                   RXMLElement *jobs = [rootXML child:@"channel"];
-                                                                   
-                                                                   __block NSDictionary *result;
-                                                                   [jobs iterate:@"item" usingBlock:^(RXMLElement *element) {
-                                                                       NSLog(@"got: %@", [element child:@"title"]);
-                                                                       result = @{@"listingJobTitle" : [element child:@"title"], @"listingJobdescription" : [element child:@"description"]};
-                                                                   }];
-                                                                   
-                                                                   NSLog(@"listing result: %@", result);
-                                                                   
-                                                                   completionBlock(result, nil);
+//                                                                   RXMLElement *rootXML = [RXMLElement elementFromXMLString:html encoding:NSUTF8StringEncoding];
+//                                                                   
+//                                                                   RXMLElement *jobs = [rootXML child:@"channel"];
+//                                                                   
+//                                                                   __block NSDictionary *result;
+//                                                                   [jobs iterate:@"item" usingBlock:^(RXMLElement *element) {
+//                                                                       NSLog(@"got: %@", [element child:@"title"]);
+//                                                                       result = @{@"listingJobTitle" : [element child:@"title"], @"listingJobdescription" : [element child:@"description"]};
+//                                                                   }];
+//                                                                   
+//                                                                   NSLog(@"listing result: %@", result);
+//                                                                   
+//                                                                   completionBlock(result, nil);
                                                               }
                                                               else {
     //                                                              NSLog(@"error fetching job listing: %@", error.localizedDescription);
@@ -261,6 +260,70 @@
     
     
 }
+
++(void)cvSearchForJobTitle:(NSString *)jobTitle completion:(void (^) (NSArray *imageArray, NSError *error)) completionBlock{
+    
+    NSString *searchString = [NSString stringWithFormat:@"http://ajax.googleapis.com/ajax/services/search/images?v=1.0&q=%@", jobTitle];
+    NSURLRequest *request = [NSURLRequest requestWithURL:[NSURL URLWithString:searchString]];
+    
+    NSLog(@"searching CV images: %@", searchString);
+    
+    [NSURLConnection sendAsynchronousRequest:request
+                                       queue:[NSOperationQueue mainQueue]
+                           completionHandler:^(NSURLResponse *response, NSData *data, NSError *error) {
+                               
+                               if(error == nil){
+                                   NSError *jsonReadingError = nil;
+                                   NSDictionary *resultsDict = (NSDictionary *)[NSJSONSerialization JSONObjectWithData:data options:kNilOptions error:&jsonReadingError];
+                                   if (jsonReadingError == nil) {
+                                       
+                                       NSMutableArray *imageArray = [NSMutableArray array];
+                                       
+                                       NSArray *resultsArray = (NSArray *)[[resultsDict valueForKey:@"responseData"] valueForKey:@"results"];
+                                       NSLog(@"results array: %@", resultsArray);
+                                       
+                                       if (resultsArray.count > 0) {
+                                       
+                                           for (NSDictionary *result in resultsArray) {
+                                               [imageArray addObject:[result valueForKey:@"url"]];
+                                               completionBlock(imageArray, jsonReadingError);
+                                           }
+                                       }
+                                       else {
+                                           NSLog(@"NO CV IMAGES RESULTS ARRAY!");
+                                       }
+                                   }
+                                   else {
+                                       NSLog(@"json reading error: %@", error.localizedDescription);
+                                       completionBlock(nil, jsonReadingError);
+                                   }
+                               }
+                               else {
+                                   NSLog(@"connection error: %@", error.localizedDescription);
+                                   completionBlock(nil, error);
+                               }
+                           }
+     ];
+}
+
++(void)fetchImageFromURL:(NSString *)url completion:(void (^) (UIImage *image, NSError *error)) completionBlock{
+    NSURLRequest *request = [NSURLRequest requestWithURL:[NSURL URLWithString:url]];
+    
+    [NSURLConnection sendAsynchronousRequest:request
+                                       queue:[NSOperationQueue mainQueue]
+                           completionHandler:^(NSURLResponse *response, NSData *data, NSError *error) {
+                               
+                               if(error == nil){
+                                   completionBlock([UIImage imageWithData:data], nil);
+                               }
+                               else {
+                                   NSLog(@"error: %@", error.localizedDescription);
+                                   completionBlock(nil, error);
+                               }
+                           }
+     ];
+}
+
 
 
 @end

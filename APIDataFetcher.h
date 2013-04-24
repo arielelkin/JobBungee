@@ -20,4 +20,8 @@
 
 +(void)jobDataSearch:(NSString *)socCode jobTitle:(NSString *)jobTitle completion:(void (^) (NSDictionary *results, NSError *error)) completionBlock;
 
++(void)cvSearchForJobTitle:(NSString *)jobTitle completion:(void (^) (NSArray *imageArray, NSError *error)) completionBlock;
+
++(void)fetchImageFromURL:(NSString *)url completion:(void (^) (UIImage *image, NSError *error)) completionBlock;
+
 @end

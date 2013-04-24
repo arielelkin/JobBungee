@@ -14,6 +14,8 @@
 @property UIPickerView *regionPicker;
 @property NSDictionary *regionsDict;
 @property NSMutableArray *inDemandJobsArray;
+@property UIImageView *cvImageViewOne;
+@property UIImageView *cvImageViewTwo;
 @property UIButton *searchButton;
 @property int selectedRegion;
 
@@ -41,6 +43,18 @@
     
     self.screenWidth = [[UIScreen mainScreen] bounds].size.width;
     self.screenHeight = [[UIScreen mainScreen] bounds].size.height;
+    
+//    [APIDataFetcher cvSearchForJobTitle:@"cv" completion:^(NSArray *imageArray, NSError *error) {
+//        NSLog(@"finished search");
+//    }];
+    
+//    [NSURLConnection sendAsynchronousRequest:jobRequest
+//                                       queue:[NSOperationQueue mainQueue]
+//                           completionHandler:^(NSURLResponse *response, NSData *data, NSError *error) {
+//                               if (error == nil) {
+//                                   <#statements#>
+//                               }
+//    
     
     
     [self setupUI];
@@ -123,7 +137,7 @@
     
     
     //Add tableview
-    self.tableView = [[UITableView alloc] initWithFrame:CGRectMake(0, 0, self.screenWidth/1.5, self.screenHeight/1.5) style:UITableViewStylePlain];
+    self.tableView = [[UITableView alloc] initWithFrame:CGRectMake(0, 0, self.screenWidth/1.5, self.screenHeight/1.7) style:UITableViewStylePlain];
     [self.tableView setDelegate:self];
     [self.tableView setDataSource:self];
     [self.tableView setCenter:CGPointMake(self.screenWidth/2, self.screenHeight*2)];
@@ -144,8 +158,22 @@
         if(error == nil){
             
             [self.resultsDict addEntriesFromDictionary:results];
+            NSLog(@"resultsDict: %@", self.resultsDict);
             
             [self animateScrollUp];
+            
+            [APIDataFetcher cvSearchForJobTitle:[[jobTitle stringByAppendingString:@" cv"] stringByAddingPercentEscapesUsingEncoding:NSASCIIStringEncoding] completion:^(NSArray *imageArray, NSError *error) {
+                NSLog(@"got images: %@", imageArray);
+                
+                [APIDataFetcher fetchImageFromURL:imageArray[0] completion:^(UIImage *image, NSError *error) {
+                    self.cvImageViewOne.image = image;
+                    [self.tableView reloadData];
+                    
+                    [APIDataFetcher fetchImageFromURL:imageArray[1] completion:^(UIImage *image, NSError *error) {
+                        self.cvImageViewTwo.image = image;
+                    }];
+                }];
+            }];
             
             [self.tableView reloadData];
         }
@@ -169,11 +197,12 @@
                      animations:^{
                          
 //                         [self.jobSearchTextField setCenter:CGPointMake(self.jobSearchTextField.center.x, self.jobSearchTextField.bounds.size.height + self.jobSearchTextField.bounds.size.height*0.1)];
-                         [self.titleLabel setCenter:CGPointMake(self.titleLabel.center.x, 100)];
-                         [self.instructionsLabel setCenter:CGPointMake(self.instructionsLabel.center.x, 160)];
-                         [self.regionPicker setCenter:CGPointMake(self.regionPicker.center.x, 300)];
+                         [self.titleLabel setCenter:CGPointMake(self.titleLabel.center.x, 80)];
+                         [self.instructionsLabel setCenter:CGPointMake(self.instructionsLabel.center.x, 150)];
+                         [self.instructionsLabel removeFromSuperview];
+                         [self.regionPicker setCenter:CGPointMake(self.regionPicker.center.x, 230)];
                          [self.searchButton setCenter:CGPointMake(self.regionPicker.center.x, self.regionPicker.frame.origin.y + self.regionPicker.frame.size.height + self.searchButton.bounds.size.height/2)];
-                         [self.tableView setCenter:CGPointMake(self.screenWidth/2, 800)];
+                         [self.tableView setCenter:CGPointMake(self.screenWidth/2, 700)];
                          
                          [self.bungeeJumper setCenter:CGPointMake(self.screenWidth - self.bungeeJumper.bounds.size.width/2, self.screenHeight/2)];
 
@@ -255,10 +284,14 @@
 
 
 -(void)pickerView:(UIPickerView *)pickerView didSelectRow:(NSInteger)row inComponent:(NSInteger)component{
-    NSLog(@"selected row %d", row);
+    
     self.selectedRegion = row;
     if (component == 1) {
         [self animateScrollUp];
+        [self fetchJobDataForSocCode:[self.inDemandJobsArray[row] valueForKey:@"soc"] jobTitle:[self.inDemandJobsArray[row] valueForKey:@"title"]];
+        
+        [self.tableView scrollToRowAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:0] atScrollPosition:UITableViewRowAnimationTop animated:YES];
+
     }
 }
 
@@ -266,9 +299,10 @@
     [APIDataFetcher fetchMostInDemandJobsForRegion:self.selectedRegion completionBlock:^(NSMutableArray *inDemandJobsArray, NSError *error) {
         NSLog(@"most demand jobs: %@", inDemandJobsArray);
         self.inDemandJobsArray = inDemandJobsArray;
-        [self.regionPicker reloadAllComponents];
-        [self.regionPicker setFrame:CGRectMake(self.regionPicker.frame.origin.x, self.regionPicker.frame.origin.y, self.regionPicker.frame.size.width*1.5, self.regionPicker.frame.size.height)];
+        [self.regionPicker setFrame:CGRectMake(self.regionPicker.frame.origin.x, self.regionPicker.frame.origin.y, self.screenWidth/1.5, self.regionPicker.frame.size.height)];
         [self.regionPicker setCenter:CGPointMake(self.screenWidth/2, self.regionPicker.center.y)];
+        
+        [self.regionPicker reloadAllComponents];
     }];
 }
 
@@ -286,9 +320,9 @@
     }
 
     [cell setSelectionStyle:UITableViewCellSelectionStyleNone];
-    cell.textLabel.font = [UIFont fontWithName:@"Armata-Regular" size:30];
+    cell.textLabel.font = [UIFont fontWithName:@"Armata-Regular" size:20];
     cell.textLabel.backgroundColor = [UIColor clearColor];
-    cell.detailTextLabel.font = [UIFont fontWithName:@"Armata-Regular" size:27];
+    cell.detailTextLabel.font = [UIFont fontWithName:@"Armata-Regular" size:18];
     cell.detailTextLabel.backgroundColor = [UIColor clearColor];
     cell.detailTextLabel.textColor = [UIColor whiteColor];
     [cell.contentView setBackgroundColor:[UIColor clearColor]];
@@ -296,12 +330,16 @@
     //Stats
     if(indexPath.section == 0){
         cell.imageView.image = nil;
-    
-        //Title
+        
+        //Hard to fill
         if(indexPath.row == 0){
-            cell.textLabel.text = @"Title:";
-            cell.detailTextLabel.text = [self.resultsDict valueForKey:@"title"];
+            cell.textLabel.text = @"Hard to fill?";
             cell.detailTextLabel.numberOfLines = 0;
+            cell.detailTextLabel.text = [NSString stringWithFormat:@"%.2f%% of vacancies are hard to fill.", [[self.resultsDict valueForKey:@"htf"] floatValue]];
+            if (self.inDemandJobsArray) {
+                //                cell.detailTextLabel.text = [NSString stringWithFormat:@"%.2f%% of vacancies are hard to fill in %@", [[self.resultsDict valueForKey:@"htf"] floatValue], [self pickerView:self.regionPicker titleForRow:[self.regionPicker selectedRowInComponent:1]  forComponent:1]];
+                
+            }
         }
         
         //Pay
@@ -310,13 +348,6 @@
             float pay = [[self.resultsDict valueForKey:@"pay"] floatValue];
             cell.detailTextLabel.text = [NSString stringWithFormat:@"£%.2f", pay];
         }
-        
-        //Hard to fill
-        else if(indexPath.row == 2){
-            cell.textLabel.text = @"Hard to fill?";
-            cell.detailTextLabel.numberOfLines = 0;
-            cell.detailTextLabel.text = [NSString stringWithFormat:@"%.2f%% of vacancies are hard to fill in London", [[self.resultsDict valueForKey:@"htf"] floatValue]];
-        }
     }
 
     //job listing:
@@ -324,15 +355,19 @@
         cell.textLabel.text = @" ";
         cell.detailTextLabel.text = @" ";
         
-        if (indexPath.section == 1) {
+        if (indexPath.section == 1){
+            if (indexPath.row == 0) {
+                self.cvImageViewOne = cell.imageView;
+            } else if (indexPath.row == 1){
+                self.cvImageViewTwo = cell.imageView;
+            }
+        }
+        else if (indexPath.section == 2) {
             cell.textLabel.text = @"Job Listing";
             [cell.detailTextLabel setNumberOfLines:0];
-            cell.detailTextLabel.text = @"Description of the job listing, along with salary";
+            //            cell.detailTextLabel.text = self.inDemandJobsArray
         }
-        
-        if (indexPath.section == 2){
-            cell.imageView.image = [UIImage imageNamed:@"cv.jpg"];
-        }
+
     }
     
     return cell;
@@ -344,11 +379,11 @@
         return @"Facts";
     }
     else if (section == 1){
-        return @"Listings";
+        return @"Typical CV";
     }
     
     else if (section == 2){
-        return @"Typical CV";
+        return @"Job Listings";
     }
     
     else return nil;
@@ -360,17 +395,16 @@
 }
 
 -(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
-    if(indexPath.section == 0) return 150;
-    else if(indexPath.section == 1) return 150;
+    if(indexPath.section == 0 || indexPath.section == 2) return 100;
     else return 400;
     
 }
 
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
-    if(section == 0){
-        return 3;
+    if(section == 0 || section == 2){
+        return 2;
     }
-    else return 2;
+    else return 1;
 }
 
 -(CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section{
