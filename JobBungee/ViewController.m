@@ -12,11 +12,14 @@
 @interface ViewController ()
 
 @property UIPickerView *regionPicker;
+@property NSDictionary *regionsDict;
+@property NSMutableArray *inDemandJobsArray;
+@property UIButton *searchButton;
 @property int selectedRegion;
 
 //@property UITextField *jobSearchTextField;
 
-@property NSDictionary *regionsDict;
+
 
 @property float screenWidth;
 @property float screenHeight;
@@ -24,6 +27,7 @@
 @property UITableView *tableView;
 @property UIImageView *bungeeJumper;
 @property UILabel *titleLabel;
+@property UILabel *instructionsLabel;
 @property NSMutableDictionary *resultsDict;
 
 @end
@@ -63,17 +67,17 @@
     [self.titleLabel setBackgroundColor:[UIColor clearColor]];
     [self.view addSubview:self.titleLabel];
     
-    UILabel *instructionsLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, 500, 100)];
-    instructionsLabel.font = [UIFont fontWithName:@"Armata-Regular" size:25];
-    [instructionsLabel setText:@"Select a region to find which jobs are most in demand:"];
-    [instructionsLabel setNumberOfLines:2];
-    [instructionsLabel setTextAlignment:NSTextAlignmentCenter];
-    instructionsLabel.center = CGPointMake(self.screenWidth/2, self.titleLabel.center.y+80);
-    [instructionsLabel setBackgroundColor:[UIColor clearColor]];
-    [self.view addSubview:instructionsLabel];
+    self.instructionsLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, 500, 100)];
+    self.instructionsLabel.font = [UIFont fontWithName:@"Armata-Regular" size:25];
+    [self.instructionsLabel setText:@"Select a region to find which jobs are most in demand:"];
+    [self.instructionsLabel setNumberOfLines:2];
+    [self.instructionsLabel setTextAlignment:NSTextAlignmentCenter];
+    self.instructionsLabel.center = CGPointMake(self.screenWidth/2, self.titleLabel.center.y+80);
+    [self.instructionsLabel setBackgroundColor:[UIColor clearColor]];
+    [self.view addSubview:self.instructionsLabel];
     
     self.regionPicker = [[UIPickerView alloc] initWithFrame:CGRectMake(0, 0, self.screenWidth/2, self.screenHeight/4)];
-    [self.regionPicker setCenter:CGPointMake(self.screenWidth/2, instructionsLabel.center.y + self.regionPicker.bounds.size.height-50)];
+    [self.regionPicker setCenter:CGPointMake(self.screenWidth/2, self.instructionsLabel.center.y + self.regionPicker.bounds.size.height-50)];
     [self.regionPicker setShowsSelectionIndicator:YES];
     [self.regionPicker setDelegate:self];
     [self.regionPicker setDataSource:self];
@@ -83,6 +87,7 @@
         if (!error) {
             self.regionsDict = regionsDict;
             NSLog(@"Got regionsDict: %@", regionsDict);
+            [self startBungeeAnimation];
             [self.regionPicker reloadAllComponents];
         }
         else {
@@ -90,12 +95,12 @@
         }
     }];
     
-    UIButton *selectRegionButton = [UIButton buttonWithType:UIButtonTypeRoundedRect];
-    [selectRegionButton setFrame:CGRectMake(0, 0, self.regionPicker.bounds.size.width, 30)];
-    [selectRegionButton setCenter:CGPointMake(self.regionPicker.center.x, self.regionPicker.frame.origin.y + self.regionPicker.frame.size.height + selectRegionButton.bounds.size.height/2)];
-    [selectRegionButton setTitle:@"Select" forState:UIControlStateNormal];
-    [selectRegionButton addTarget:self action:@selector(regionSelected) forControlEvents:UIControlEventTouchUpInside];
-    [self.view addSubview:selectRegionButton];
+    self.searchButton = [UIButton buttonWithType:UIButtonTypeRoundedRect];
+    [self.searchButton setFrame:CGRectMake(0, 0, self.regionPicker.bounds.size.width, 30)];
+    [self.searchButton setCenter:CGPointMake(self.regionPicker.center.x, self.regionPicker.frame.origin.y + self.regionPicker.frame.size.height + self.searchButton.bounds.size.height/2)];
+    [self.searchButton setTitle:@"Select" forState:UIControlStateNormal];
+    [self.searchButton addTarget:self action:@selector(regionSelected) forControlEvents:UIControlEventTouchUpInside];
+    [self.view addSubview:self.searchButton];
 
 
     
@@ -132,18 +137,65 @@
 //    [self.jobSearchTextField becomeFirstResponder];
 }
 
-- (BOOL)textFieldShouldReturn:(UITextField *)textField {
-    [textField resignFirstResponder];
-    return NO;
+
+-(void)fetchJobDataForSocCode:(NSString *)socCode jobTitle:(NSString *)jobTitle{
+    
+    [APIDataFetcher jobDataSearch:socCode jobTitle:jobTitle completion:^(NSDictionary *results, NSError *error) {
+        if(error == nil){
+            
+            [self.resultsDict addEntriesFromDictionary:results];
+            
+            [self animateScrollUp];
+            
+            [self.tableView reloadData];
+        }
+    }];
 }
 
--(void)textFieldDidBeginEditing:(UITextField *)textField{
+
+#pragma mark -
+#pragma mark Animations
+
+-(void)startBungeeAnimation{
     [UIView animateWithDuration:1
                      animations:^{
                          [self.bungeeJumper setCenter:CGPointMake(self.bungeeJumper.center.x, self.bungeeJumper.center.y-300)];
                      }
      ];
 }
+
+-(void)animateScrollUp{
+    [UIView animateWithDuration:0.3
+                     animations:^{
+                         
+//                         [self.jobSearchTextField setCenter:CGPointMake(self.jobSearchTextField.center.x, self.jobSearchTextField.bounds.size.height + self.jobSearchTextField.bounds.size.height*0.1)];
+                         [self.titleLabel setCenter:CGPointMake(self.titleLabel.center.x, 100)];
+                         [self.instructionsLabel setCenter:CGPointMake(self.instructionsLabel.center.x, 160)];
+                         [self.regionPicker setCenter:CGPointMake(self.regionPicker.center.x, 300)];
+                         [self.searchButton setCenter:CGPointMake(self.regionPicker.center.x, self.regionPicker.frame.origin.y + self.regionPicker.frame.size.height + self.searchButton.bounds.size.height/2)];
+                         [self.tableView setCenter:CGPointMake(self.screenWidth/2, 800)];
+                         
+                         [self.bungeeJumper setCenter:CGPointMake(self.screenWidth - self.bungeeJumper.bounds.size.width/2, self.screenHeight/2)];
+
+                     }
+     ];
+    
+}
+
+
+
+#pragma mark -
+#pragma mark TextField
+
+- (BOOL)textFieldShouldReturn:(UITextField *)textField {
+    [textField resignFirstResponder];
+    return NO;
+}
+
+-(void)textFieldDidBeginEditing:(UITextField *)textField{
+    [self startBungeeAnimation];
+}
+
 
 -(void)textFieldDidEndEditing:(UITextField *)textField{
 
@@ -166,34 +218,60 @@
     [self.tableView scrollToRowAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:0] atScrollPosition:UITableViewRowAnimationTop animated:YES];
 }
 
--(void)fetchJobDataForSocCode:(NSString *)socCode jobTitle:(NSString *)jobTitle{
 
-    [APIDataFetcher jobDataSearch:socCode jobTitle:jobTitle completion:^(NSDictionary *results, NSError *error) {
-        if(error == nil){
-            
-            [self.resultsDict addEntriesFromDictionary:results];
-            
-            [UIView animateWithDuration:0.3
-                             animations:^{
-                                 [self.tableView setCenter:CGPointMake(self.screenWidth/2, self.screenHeight-self.tableView.bounds.size.height*0.8)];
-//                                 [self.jobSearchTextField setCenter:CGPointMake(self.jobSearchTextField.center.x, self.jobSearchTextField.bounds.size.height + self.jobSearchTextField.bounds.size.height*0.1)];
-                                 [self.bungeeJumper setCenter:CGPointMake(self.screenWidth - self.bungeeJumper.bounds.size.width/2, self.screenHeight/2)];
-                                 [self.titleLabel setCenter:CGPointMake(160, 80)];
-                                 [self.titleLabel setFont:[UIFont fontWithName:@"Armata-Regular" size:25]];
-                             }
-             ];
-            [self.tableView reloadData];
-        }
+
+#pragma mark -
+#pragma mark Regions PickerView
+
+// returns the number of 'columns' to display.
+- (NSInteger)numberOfComponentsInPickerView:(UIPickerView *)pickerView{
+    if (self.inDemandJobsArray) {
+        NSLog(@"got jobs array");
+        return 2;
+    } else return 1;
+}
+
+- (NSString *)pickerView:(UIPickerView *)pickerView titleForRow:(NSInteger)row forComponent:(NSInteger)component{
+    
+    if (component == 0) {
+        NSArray *regionNames = [self.regionsDict keysSortedByValueUsingComparator:^NSComparisonResult(id obj1, id obj2) {
+            return [obj1 compare:obj2];
+        }];
+        return regionNames[row];
+    }
+    else {
+        NSString *jobTitle = [self.inDemandJobsArray[row] valueForKey:@"title"];
+        NSLog(@"should return %@", jobTitle);
+        return jobTitle;
+    }
+}
+
+// returns the # of rows in each component..
+- (NSInteger)pickerView:(UIPickerView *)pickerView numberOfRowsInComponent:(NSInteger)component{
+    if (component == 0) {
+        return self.regionsDict.allKeys.count;
+    } else return self.inDemandJobsArray.count;
+}
+
+
+-(void)pickerView:(UIPickerView *)pickerView didSelectRow:(NSInteger)row inComponent:(NSInteger)component{
+    NSLog(@"selected row %d", row);
+    self.selectedRegion = row;
+    if (component == 1) {
+        [self animateScrollUp];
+    }
+}
+
+-(void)regionSelected{
+    [APIDataFetcher fetchMostInDemandJobsForRegion:self.selectedRegion completionBlock:^(NSMutableArray *inDemandJobsArray, NSError *error) {
+        NSLog(@"most demand jobs: %@", inDemandJobsArray);
+        self.inDemandJobsArray = inDemandJobsArray;
+        [self.regionPicker reloadAllComponents];
+        [self.regionPicker setFrame:CGRectMake(self.regionPicker.frame.origin.x, self.regionPicker.frame.origin.y, self.regionPicker.frame.size.width*1.5, self.regionPicker.frame.size.height)];
+        [self.regionPicker setCenter:CGPointMake(self.screenWidth/2, self.regionPicker.center.y)];
     }];
 }
 
--(CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section{
-    return 50;
-}
-
--(void)showResults:(NSString *)jobName{
-    
-}
 
 #pragma mark -
 #pragma mark TableViewDelegate methods
@@ -295,33 +373,11 @@
     else return 2;
 }
 
-// returns the number of 'columns' to display.
-- (NSInteger)numberOfComponentsInPickerView:(UIPickerView *)pickerView{
-    return 1;
-}
-
-- (NSString *)pickerView:(UIPickerView *)pickerView titleForRow:(NSInteger)row forComponent:(NSInteger)component{
-    
-    NSArray *regionNames = [self.regionsDict keysSortedByValueUsingComparator:^NSComparisonResult(id obj1, id obj2) {
-        return [obj1 compare:obj2];
-    }];
-    return regionNames[row];
-}
-
-// returns the # of rows in each component..
-- (NSInteger)pickerView:(UIPickerView *)pickerView numberOfRowsInComponent:(NSInteger)component{
-    return self.regionsDict.allKeys.count;
+-(CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section{
+    return 50;
 }
 
 
--(void)pickerView:(UIPickerView *)pickerView didSelectRow:(NSInteger)row inComponent:(NSInteger)component{
-    NSLog(@"selected row %d", row);
-    self.selectedRegion = row;
-}
-
--(void)regionSelected{
-    
-}
 
 
 @end

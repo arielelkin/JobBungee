@@ -12,6 +12,8 @@
 
 //LMI Data:
 
++(void)fetchMostInDemandJobsForRegion:(int)regionID completionBlock:(void (^)(NSMutableArray *inDemandJobsArray, NSError *error)) completionBlock;
+
 +(void)fetchRegionWithCompletionBlock:(void (^)(NSDictionary *regionsDict, NSError *error)) completionBlock;
 
 +(void)socCodeSearch:(NSString *)query completion:(void (^)(NSJSONSerialization *json, NSError *error)) completionBlock;

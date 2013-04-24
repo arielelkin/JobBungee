@@ -13,6 +13,58 @@
 
 @implementation APIDataFetcher
 
+
++(void)fetchMostInDemandJobsForRegion:(int)regionID completionBlock:(void (^)(NSMutableArray *inDemandJobsArray, NSError *error)) completionBlock{
+    
+    NSLog(@"fetching most in demand jobs");
+    
+    NSString *searchQuery = [NSString stringWithFormat:@"http://api.lmiforall.org.uk/api/ess/regions/ranksocs/%d", regionID];
+    
+    NSURLRequest *request = [NSURLRequest requestWithURL:[NSURL URLWithString:searchQuery]];
+    
+    [NSURLConnection sendAsynchronousRequest:request
+                                       queue:[NSOperationQueue mainQueue]
+                           completionHandler:^(NSURLResponse *response, NSData *data, NSError *error) {
+                               if(error == nil){
+                                   
+                                   NSError *jsonError = nil;
+                                   NSDictionary *inDemandJobsDict = (NSDictionary *) [NSJSONSerialization JSONObjectWithData:data options:kNilOptions error:&jsonError];
+                                   
+                                   __block int jobCount = 0;
+                                   
+                                   NSMutableArray *inDemandJobsArray = [NSMutableArray array];
+                                   
+                                   for (NSDictionary *aJob in inDemandJobsDict) {
+                                       [APIDataFetcher fetchInfoForSOC:[aJob valueForKey:@"soc"]
+                                                            completion:^(NSDictionary *socInfo, NSError *error) {
+                                                                if(!error){
+                                                                    
+                                                                    NSMutableDictionary *job = [NSMutableDictionary dictionaryWithDictionary:aJob];
+                                                                    
+                                                                    [job setValue:[socInfo valueForKey:@"title"] forKey:@"title"];
+                                                                    [inDemandJobsArray addObject:job];
+                                                                    
+                                                                    jobCount++;
+                                                                    
+                                                                    
+                                                                    if(jobCount == inDemandJobsDict.count){
+                                                                        completionBlock(inDemandJobsArray, error);
+                                                                    }
+                                                                }
+                                                                else {
+                                                                    NSLog(@"error: %@", error.localizedDescription);
+                                                                }
+                                                            }
+                                        ];
+                                   }
+                               }
+                               else {
+                                   completionBlock(nil, error);
+                               }
+                           }
+     ];
+}
+
 +(void)fetchRegionWithCompletionBlock:(void (^)(NSDictionary *regionsDict, NSError *error)) completionBlock{
     
     NSLog(@"fetching region list");
@@ -29,16 +81,7 @@
                                    NSError *jsonError = nil;
                                    NSDictionary *regionsDict = (NSDictionary *) [NSJSONSerialization JSONObjectWithData:data options:kNilOptions error:&jsonError];
                                    
-//                                   NSArray *regionsArray = (NSArray *)json;
-                                   
-                                   if (!jsonError) {
-                                       completionBlock(regionsDict, jsonError);
-                                       
-                                   }
-                                   else {
-                                       NSLog(@"json reading error: %@", jsonError.localizedDescription);
-                                   }
-                                   
+                                   completionBlock(regionsDict, jsonError);
                                    
                                    
                                    //                                   NSString *html = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
@@ -57,9 +100,11 @@
                                    //                                   
                                    //                                   completionBlock(result, nil);
                                }
+                               else {
+                                   completionBlock(nil, error);
+                               }
                            }
-     ];
-    
+     ];    
 }
 
 
@@ -77,9 +122,26 @@
     
 }
 
++(void)fetchInfoForSOC:(NSString *)socCode completion:(void (^)(NSDictionary *socInfo, NSError *error)) completionBlock{
+
+    NSString *socCodeSearch = [NSString stringWithFormat:@"soc/code/%@", socCode];
+    
+    NSURL *requestURL = [NSURL URLWithString:[BASE_URL stringByAppendingString:socCodeSearch]];
+    
+    NSURLRequest *request = [NSURLRequest requestWithURL:requestURL];
+    
+    [APIDataFetcher sendRequest:request completion:^(NSJSONSerialization *json, NSError *error) {
+        NSDictionary *socInfo = (NSDictionary *)json;
+        NSLog(@"socinfo: %@", socInfo);
+        completionBlock(socInfo, error);
+    }];
+    
+
+}
+
 +(void)sendRequest:(NSURLRequest *)request completion:(void (^)(NSJSONSerialization *json, NSError *error)) completionBlock{
     
-    NSLog(@"sending request: %@", request.URL);
+//    NSLog(@"sending request: %@", request.URL);
     
     [NSURLConnection sendAsynchronousRequest:request
                                        queue:[NSOperationQueue mainQueue]
