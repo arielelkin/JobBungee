@@ -6,13 +6,61 @@
 //  Copyright (c) 2013 ariel. All rights reserved.
 //
 
-#import "LMIDataFetcher.h"
+#import "APIDataFetcher.h"
 #import "RXMLElement.h"
 
 #define BASE_URL @"http://api.lmiforall.org.uk/api/"
 
-@implementation LMIDataFetcher
+@implementation APIDataFetcher
 
++(void)fetchRegionWithCompletionBlock:(void (^)(NSDictionary *regionsDict, NSError *error)) completionBlock{
+    
+    NSLog(@"fetching region list");
+    
+    NSString *searchQuery = [NSString stringWithFormat:@"http://api.lmiforall.org.uk/api/ess/regions"];
+    
+    NSURLRequest *request = [NSURLRequest requestWithURL:[NSURL URLWithString:searchQuery]];
+    
+    [NSURLConnection sendAsynchronousRequest:request
+                                       queue:[NSOperationQueue mainQueue]
+                           completionHandler:^(NSURLResponse *response, NSData *data, NSError *error) {
+                               if(error == nil){
+                                   
+                                   NSError *jsonError = nil;
+                                   NSDictionary *regionsDict = (NSDictionary *) [NSJSONSerialization JSONObjectWithData:data options:kNilOptions error:&jsonError];
+                                   
+//                                   NSArray *regionsArray = (NSArray *)json;
+                                   
+                                   if (!jsonError) {
+                                       completionBlock(regionsDict, jsonError);
+                                       
+                                   }
+                                   else {
+                                       NSLog(@"json reading error: %@", jsonError.localizedDescription);
+                                   }
+                                   
+                                   
+                                   
+                                   //                                   NSString *html = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
+                                   //
+                                   //                                   RXMLElement *rootXML = [RXMLElement elementFromXMLString:html encoding:NSUTF8StringEncoding];
+                                   //
+                                   //                                   RXMLElement *jobs = [rootXML child:@"channel"];
+                                   //
+                                   //                                   __block NSDictionary *result;
+                                   //                                   [jobs iterate:@"item" usingBlock:^(RXMLElement *element) {
+                                   //                                       NSLog(@"got: %@", [element child:@"title"]);
+                                   //                                       result = @{@"title" : [element child:@"title"], @"description" : [element child:@"description"]};
+                                   //                                   }];
+                                   //                                   
+                                   //                                   NSLog(@"listing result: %@", result);
+                                   //                                   
+                                   //                                   completionBlock(result, nil);
+                               }
+                           }
+     ];
+    
+}
 
 
 +(void)socCodeSearch:(NSString *)query completion:(void (^)(NSJSONSerialization *json, NSError *error)) completionBlock{
@@ -23,7 +71,7 @@
     
     NSURLRequest *request = [NSURLRequest requestWithURL:requestURL];
     
-    [LMIDataFetcher sendRequest:request completion:^(NSJSONSerialization *json, NSError *error) {
+    [APIDataFetcher sendRequest:request completion:^(NSJSONSerialization *json, NSError *error) {
         completionBlock(json, error);
     }];
     
@@ -63,7 +111,7 @@
     NSURL *requestURL = [NSURL URLWithString:[BASE_URL stringByAppendingString:weeklyPaySearch]];
     NSURLRequest *request = [NSURLRequest requestWithURL:requestURL];
     
-    [LMIDataFetcher sendRequest:request completion:^(NSJSONSerialization *json, NSError *error) {
+    [APIDataFetcher sendRequest:request completion:^(NSJSONSerialization *json, NSError *error) {
         
         NSDictionary *payResults = (NSDictionary *)json;
         
@@ -87,7 +135,7 @@
     request = [NSURLRequest requestWithURL:requestURL];
     
     
-    [LMIDataFetcher sendRequest:request completion:^(NSJSONSerialization *json, NSError *error) {
+    [APIDataFetcher sendRequest:request completion:^(NSJSONSerialization *json, NSError *error) {
         
         NSDictionary *htfResults = (NSDictionary *)json;
         

@@ -8,7 +8,11 @@
 
 #import <Foundation/Foundation.h>
 
-@interface LMIDataFetcher : NSObject
+@interface APIDataFetcher : NSObject
+
+//LMI Data:
+
++(void)fetchRegionWithCompletionBlock:(void (^)(NSDictionary *regionsDict, NSError *error)) completionBlock;
 
 +(void)socCodeSearch:(NSString *)query completion:(void (^)(NSJSONSerialization *json, NSError *error)) completionBlock;
 

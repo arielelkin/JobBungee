@@ -7,11 +7,17 @@
 //
 
 #import "ViewController.h"
-#import "LMIDataFetcher.h"
+#import "APIDataFetcher.h"
 
 @interface ViewController ()
 
-@property UITextField *jobSearchTextField;
+@property UIPickerView *regionPicker;
+@property int selectedRegion;
+
+//@property UITextField *jobSearchTextField;
+
+@property NSDictionary *regionsDict;
+
 @property float screenWidth;
 @property float screenHeight;
 
@@ -32,11 +38,10 @@
     self.screenWidth = [[UIScreen mainScreen] bounds].size.width;
     self.screenHeight = [[UIScreen mainScreen] bounds].size.height;
     
-//    NSLog(@"%f by %f", self.screenWidth, self.screenHeight);
     
     [self setupUI];
     
-    self.resultsDict = [NSMutableDictionary dictionary];
+    self.resultsDict = [NSMutableDictionary dictionary];    
     
 }
 
@@ -57,24 +62,59 @@
     [self.titleLabel setCenter:CGPointMake(self.screenWidth/2, 200)];
     [self.titleLabel setBackgroundColor:[UIColor clearColor]];
     [self.view addSubview:self.titleLabel];
+    
+    UILabel *instructionsLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, 500, 100)];
+    instructionsLabel.font = [UIFont fontWithName:@"Armata-Regular" size:25];
+    [instructionsLabel setText:@"Select a region to find which jobs are most in demand:"];
+    [instructionsLabel setNumberOfLines:2];
+    [instructionsLabel setTextAlignment:NSTextAlignmentCenter];
+    instructionsLabel.center = CGPointMake(self.screenWidth/2, self.titleLabel.center.y+80);
+    [instructionsLabel setBackgroundColor:[UIColor clearColor]];
+    [self.view addSubview:instructionsLabel];
+    
+    self.regionPicker = [[UIPickerView alloc] initWithFrame:CGRectMake(0, 0, self.screenWidth/2, self.screenHeight/4)];
+    [self.regionPicker setCenter:CGPointMake(self.screenWidth/2, instructionsLabel.center.y + self.regionPicker.bounds.size.height-50)];
+    [self.regionPicker setShowsSelectionIndicator:YES];
+    [self.regionPicker setDelegate:self];
+    [self.regionPicker setDataSource:self];
+    [self.view addSubview:self.regionPicker];
+    
+    [APIDataFetcher fetchRegionWithCompletionBlock:^(NSDictionary *regionsDict, NSError *error) {
+        if (!error) {
+            self.regionsDict = regionsDict;
+            NSLog(@"Got regionsDict: %@", regionsDict);
+            [self.regionPicker reloadAllComponents];
+        }
+        else {
+            NSLog(@"error fetching regions: %@", error.localizedDescription);
+        }
+    }];
+    
+    UIButton *selectRegionButton = [UIButton buttonWithType:UIButtonTypeRoundedRect];
+    [selectRegionButton setFrame:CGRectMake(0, 0, self.regionPicker.bounds.size.width, 30)];
+    [selectRegionButton setCenter:CGPointMake(self.regionPicker.center.x, self.regionPicker.frame.origin.y + self.regionPicker.frame.size.height + selectRegionButton.bounds.size.height/2)];
+    [selectRegionButton setTitle:@"Select" forState:UIControlStateNormal];
+    [selectRegionButton addTarget:self action:@selector(regionSelected) forControlEvents:UIControlEventTouchUpInside];
+    [self.view addSubview:selectRegionButton];
+
 
     
-    //Add search text field:
-    self.jobSearchTextField = [[UITextField alloc] initWithFrame:CGRectMake(0, 0, self.screenWidth/2, self.screenHeight/14)];
-    [self.jobSearchTextField setCenter:CGPointMake(self.screenWidth/2, self.screenHeight/3)];
-    [self.jobSearchTextField setFont:[UIFont fontWithName:@"Armata-Regular" size:40]];
-    [self.jobSearchTextField setPlaceholder:@"Search"];
-    [self.jobSearchTextField setTextColor:[UIColor whiteColor]];
-    [self.jobSearchTextField setTextAlignment:NSTextAlignmentCenter];
-    [self.jobSearchTextField setBorderStyle:UITextBorderStyleBezel];
-    
-    [self.jobSearchTextField setDelegate:self];
-    [self.jobSearchTextField setReturnKeyType:UIReturnKeySearch];
-    [self.jobSearchTextField setKeyboardType:UIKeyboardTypeAlphabet];
-    [self.jobSearchTextField setAutocorrectionType:UITextAutocorrectionTypeNo];
-    [self.jobSearchTextField setClearsOnBeginEditing:YES];
-    [self.jobSearchTextField setAutocapitalizationType:UITextAutocapitalizationTypeNone];
-    [self.view addSubview:self.jobSearchTextField];
+//    //Add search text field:
+//    self.jobSearchTextField = [[UITextField alloc] initWithFrame:CGRectMake(0, 0, self.screenWidth/2, self.screenHeight/14)];
+//    [self.jobSearchTextField setCenter:CGPointMake(self.screenWidth/2, self.screenHeight/3)];
+//    [self.jobSearchTextField setFont:[UIFont fontWithName:@"Armata-Regular" size:40]];
+//    [self.jobSearchTextField setPlaceholder:@"Search"];
+//    [self.jobSearchTextField setTextColor:[UIColor whiteColor]];
+//    [self.jobSearchTextField setTextAlignment:NSTextAlignmentCenter];
+//    [self.jobSearchTextField setBorderStyle:UITextBorderStyleBezel];
+//    
+//    [self.jobSearchTextField setDelegate:self];
+//    [self.jobSearchTextField setReturnKeyType:UIReturnKeySearch];
+//    [self.jobSearchTextField setKeyboardType:UIKeyboardTypeAlphabet];
+//    [self.jobSearchTextField setAutocorrectionType:UITextAutocorrectionTypeNo];
+//    [self.jobSearchTextField setClearsOnBeginEditing:YES];
+//    [self.jobSearchTextField setAutocapitalizationType:UITextAutocapitalizationTypeNone];
+//    [self.view addSubview:self.jobSearchTextField];
     
     
     //Add tableview
@@ -89,7 +129,7 @@
 
 -(void)viewDidAppear:(BOOL)animated{
     [super viewDidAppear:animated];
-    [self.jobSearchTextField becomeFirstResponder];
+//    [self.jobSearchTextField becomeFirstResponder];
 }
 
 - (BOOL)textFieldShouldReturn:(UITextField *)textField {
@@ -107,7 +147,7 @@
 
 -(void)textFieldDidEndEditing:(UITextField *)textField{
 
-    [LMIDataFetcher socCodeSearch:textField.text completion:^(NSJSONSerialization *json, NSError *error) {
+    [APIDataFetcher socCodeSearch:textField.text completion:^(NSJSONSerialization *json, NSError *error) {
         if (error == nil) {
             
             NSArray *results = (NSArray * ) json;
@@ -128,7 +168,7 @@
 
 -(void)fetchJobDataForSocCode:(NSString *)socCode jobTitle:(NSString *)jobTitle{
 
-    [LMIDataFetcher jobDataSearch:socCode jobTitle:jobTitle completion:^(NSDictionary *results, NSError *error) {
+    [APIDataFetcher jobDataSearch:socCode jobTitle:jobTitle completion:^(NSDictionary *results, NSError *error) {
         if(error == nil){
             
             [self.resultsDict addEntriesFromDictionary:results];
@@ -136,7 +176,7 @@
             [UIView animateWithDuration:0.3
                              animations:^{
                                  [self.tableView setCenter:CGPointMake(self.screenWidth/2, self.screenHeight-self.tableView.bounds.size.height*0.8)];
-                                 [self.jobSearchTextField setCenter:CGPointMake(self.jobSearchTextField.center.x, self.jobSearchTextField.bounds.size.height + self.jobSearchTextField.bounds.size.height*0.1)];
+//                                 [self.jobSearchTextField setCenter:CGPointMake(self.jobSearchTextField.center.x, self.jobSearchTextField.bounds.size.height + self.jobSearchTextField.bounds.size.height*0.1)];
                                  [self.bungeeJumper setCenter:CGPointMake(self.screenWidth - self.bungeeJumper.bounds.size.width/2, self.screenHeight/2)];
                                  [self.titleLabel setCenter:CGPointMake(160, 80)];
                                  [self.titleLabel setFont:[UIFont fontWithName:@"Armata-Regular" size:25]];
@@ -253,6 +293,34 @@
         return 3;
     }
     else return 2;
+}
+
+// returns the number of 'columns' to display.
+- (NSInteger)numberOfComponentsInPickerView:(UIPickerView *)pickerView{
+    return 1;
+}
+
+- (NSString *)pickerView:(UIPickerView *)pickerView titleForRow:(NSInteger)row forComponent:(NSInteger)component{
+    
+    NSArray *regionNames = [self.regionsDict keysSortedByValueUsingComparator:^NSComparisonResult(id obj1, id obj2) {
+        return [obj1 compare:obj2];
+    }];
+    return regionNames[row];
+}
+
+// returns the # of rows in each component..
+- (NSInteger)pickerView:(UIPickerView *)pickerView numberOfRowsInComponent:(NSInteger)component{
+    return self.regionsDict.allKeys.count;
+}
+
+
+-(void)pickerView:(UIPickerView *)pickerView didSelectRow:(NSInteger)row inComponent:(NSInteger)component{
+    NSLog(@"selected row %d", row);
+    self.selectedRegion = row;
+}
+
+-(void)regionSelected{
+    
 }
 
 
